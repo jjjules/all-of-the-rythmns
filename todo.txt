@@ -1,1 +1,3 @@
-4
+- Order of patterns. Ideally all ones, all twos but that make sense, for example 1100 - 1010 - 1001 - 0110 - 0101 - 0011 
+- Starting from a certain number of patterns, separate the output so that it's usable?
+- No "portée" as it's for drums

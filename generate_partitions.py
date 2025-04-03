@@ -6,6 +6,16 @@ def generate_binary_patterns(n):
     """Generate all possible binary patterns of length n (1 = note, 0 = rest)."""
     return list(product([0, 1], repeat=n))
 
+#def generate_binary_patterns_2(n):
+#    l = []
+#    num_ones = 0
+#    for i in range(n):
+#        if num_ones
+#        new_l = []
+#        
+#        
+
+
 def generate_drum_partitions(n, use_rehearsal_marks=False, use_section_breaks=False, use_text_annotations=False):
     """Generate a single MusicXML file containing all possible partitions for N semiquavers,
     with each pattern in a separate measure.
@@ -20,6 +30,7 @@ def generate_drum_partitions(n, use_rehearsal_marks=False, use_section_breaks=Fa
     Generates a MusicXML file named "drum_partitions_N{n}.musicxml".
     """
     patterns = generate_binary_patterns(n)
+    patterns = sorted(patterns, key = lambda x: sum(x))
     root = etree.Element("score-partwise", version="3.1")
     
     # Define part list
@@ -84,7 +95,7 @@ def generate_drum_partitions(n, use_rehearsal_marks=False, use_section_breaks=Fa
                 etree.SubElement(note, "rest")
     
     # Save to file
-    filename = f"drum_partitions_N{n}.musicxml"
+    filename = f"output/drum_partitions_N{n}.musicxml"
     tree = etree.ElementTree(root)
     with open(filename, "wb") as f:
         tree.write(f, pretty_print=True, xml_declaration=True, encoding="UTF-8")
