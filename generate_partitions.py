@@ -47,9 +47,10 @@ def generate_drum_partitions(n: int, use_rehearsal_marks=False, use_section_brea
         attributes = etree.SubElement(measure, "attributes")
         etree.SubElement(attributes, "divisions").text = "4"  # Semiquaver resolution
         
-        time = etree.SubElement(attributes, "time")
-        etree.SubElement(time, "beats").text = f"{n}"
-        etree.SubElement(time, "beat-type").text = "16"
+        if idx == 0:
+            time = etree.SubElement(attributes, "time")
+            etree.SubElement(time, "beats").text = f"{n}"
+            etree.SubElement(time, "beat-type").text = "16"
         
         clef = etree.SubElement(attributes, "clef")
         etree.SubElement(clef, "sign").text = "percussion"
