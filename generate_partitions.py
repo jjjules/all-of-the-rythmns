@@ -2,21 +2,11 @@ import sys
 from lxml import etree
 from itertools import product
 
-def generate_binary_patterns(n):
+def generate_binary_patterns(n: int) -> list[list[int]]:
     """Generate all possible binary patterns of length n (1 = note, 0 = rest)."""
-    return list(product([0, 1], repeat=n))
+    return list(map(lambda x: list(x), list(product([0, 1], repeat=n))))
 
-#def generate_binary_patterns_2(n):
-#    l = []
-#    num_ones = 0
-#    for i in range(n):
-#        if num_ones
-#        new_l = []
-#        
-#        
-
-
-def generate_drum_partitions(n, use_rehearsal_marks=False, use_section_breaks=False, use_text_annotations=False):
+def generate_drum_partitions(n: int, use_rehearsal_marks=False, use_section_breaks=False, use_text_annotations=False):
     """Generate a single MusicXML file containing all possible partitions for N semiquavers,
     with each pattern in a separate measure.
     
@@ -29,9 +19,16 @@ def generate_drum_partitions(n, use_rehearsal_marks=False, use_section_breaks=Fa
     Output:
     Generates a MusicXML file named "drum_partitions_N{n}.musicxml".
     """
-    patterns = generate_binary_patterns(n)
-    patterns = sorted(patterns, key = lambda x: sum(x))
+    
     root = etree.Element("score-partwise", version="3.1")
+
+    # Generate all patterns and sort them intuitively
+    patterns = generate_binary_patterns(n)
+    sort_list = []
+    for pat in patterns:
+        pat.extend([sum(pat)] + [- x for x in pat])
+    patterns = sorted(patterns, key = lambda x: x[n:])
+    patterns = [x[:n] for x in patterns]
     
     # Define part list
     part_list = etree.SubElement(root, "part-list")
