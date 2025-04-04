@@ -32,9 +32,6 @@ def split_patterns(patterns: list[list[int]], max_patterns_per_file: int) -> lis
 def generate_drum_partitions(
     n: int,
     max_patterns_per_file: int = 4096,
-    use_rehearsal_marks=False,
-    use_section_breaks=False,
-    use_text_annotations=False
 ):
     """Generate MusicXML files containing all possible partitions for N semiquavers,
     with each pattern in a separate measure. Automatically splits output files if needed.
@@ -42,9 +39,6 @@ def generate_drum_partitions(
     Parameters:
     n (int): Number of semiquavers in each pattern.
     max_patterns_per_file (int): Maximum number of patterns per output file.
-    use_rehearsal_marks (bool): If True, add chapter markers when note count changes.
-    use_section_breaks (bool): If True, insert section breaks when note count changes.
-    use_text_annotations (bool): If True, add text annotations for sections.
     
     Output:
     Generates MusicXML files named "drum_partitions_N{n}_part{X}.musicxml".
@@ -69,11 +63,8 @@ def generate_drum_partitions(
         score_part = etree.SubElement(part_list, "score-part", id="P1")
         etree.SubElement(score_part, "part-name").text = "Drums"
         part = etree.SubElement(root, "part", id="P1")
-
-        previous_note_count = None
         
         for idx, pattern in enumerate(patterns_subset, start=1):
-            note_count = sum(pattern)  # Count number of played notes
             measure = etree.SubElement(part, "measure", number=str(idx))
             attributes = etree.SubElement(measure, "attributes")
             etree.SubElement(attributes, "divisions").text = "4"  # Defines semiquaver resolution
@@ -88,26 +79,6 @@ def generate_drum_partitions(
             clef = etree.SubElement(attributes, "clef")
             etree.SubElement(clef, "sign").text = "percussion"
             etree.SubElement(clef, "line").text = "2"
-            
-            # Insert markers if note count changes
-            if previous_note_count is not None and note_count != previous_note_count:
-                if use_rehearsal_marks:
-                    rehearsal_mark = etree.SubElement(measure, "direction")
-                    direction_type = etree.SubElement(rehearsal_mark, "direction-type")
-                    etree.SubElement(direction_type, "rehearsal").text = f"Chapter: {note_count} Notes"
-                
-                if use_section_breaks:
-                    section_break = etree.SubElement(measure, "barline", location="right")
-                    etree.SubElement(section_break, "bar-style").text = "light-heavy"
-                    etree.SubElement(section_break, "repeat", direction="forward")
-                
-                if use_text_annotations:
-                    text_annotation = etree.SubElement(measure, "direction")
-                    direction_type = etree.SubElement(text_annotation, "direction-type")
-                    words = etree.SubElement(direction_type, "words")
-                    words.text = f"Section: {note_count} Notes"
-            
-            previous_note_count = note_count
             
             # Convert binary pattern into notes and rests in MusicXML
             for bit in pattern:
@@ -146,5 +117,5 @@ if __name__ == "__main__":
     max_patterns_per_file = int(sys.argv[2]) if len(sys.argv) > 2 else 4096
     
     # Generate partitions with default feature flags set to False
-    generate_drum_partitions(N, max_patterns_per_file, use_rehearsal_marks=False, use_section_breaks=False, use_text_annotations=False)
+    generate_drum_partitions(N, max_patterns_per_file)
 
