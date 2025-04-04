@@ -3,7 +3,7 @@ from lxml import etree
 from itertools import product
 import math
 
-MAX_PATTERNS_PER_FILE = 2048
+MAX_PATTERNS_PER_FILE = 4096
 
 def generate_binary_patterns(n: int) -> list[list[int]]:
     """Generate all possible binary patterns of length n (1 = note, 0 = rest)."""
