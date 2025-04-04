@@ -88,10 +88,14 @@ def generate_drum_partitions(
             etree.SubElement(attributes, "divisions").text = "4"  # Defines semiquaver resolution
             
             if idx == 1:
-                # Define time signature (N/16)
+                # Define time signature
                 time = etree.SubElement(attributes, "time")
-                etree.SubElement(time, "beats").text = str(n)
-                etree.SubElement(time, "beat-type").text = "16"
+                if n % 4 == 0:
+                    etree.SubElement(time, "beats").text = str(int(n / 4))
+                    etree.SubElement(time, "beat-type").text = "4"
+                else:
+                    etree.SubElement(time, "beats").text = str(n)
+                    etree.SubElement(time, "beat-type").text = "16"
             
             # Define percussion clef
             clef = etree.SubElement(attributes, "clef")
