@@ -23,14 +23,16 @@ python script.py <N> [max_patterns_per_file]
 
 Example:
 ```sh
-python script.py 8
+python script.py 12
 ```
-This will generate all possible 8-note drum patterns and save them as MusicXML files.
+This will generate all possible 12-note drum patterns and save them as MusicXML files.
 
 ## Opening the MusicXML Files
 1. Open the `.musicxml` files in notation software like MuseScore, Finale, or Sibelius.
 2. Play back and modify the patterns to create your own grooves.
 3. Experiment with different subdivisions and note combinations to discover new rhythmic ideas!
+
+**Note:** The output can be easily written to separate files because (at least with musescore) opening files with at more than 2048 measures was challenging.
 
 ## Why Use This?
 This tool is great for:
