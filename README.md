@@ -16,16 +16,18 @@ This script generates all possible drum patterns for a given number of semiquave
 
 ### Running the Script
 ```sh
-python script.py <N> [max_patterns_per_file]
+python generate_partitions.py <N> [max_patterns_per_file]
 ```
 - `<N>`: Number of semiquavers (16th notes) in each pattern (e.g., 8 for one bar in 4/4 time).
 - `[max_patterns_per_file]` (optional): The maximum number of patterns per file.
 
 Example:
 ```sh
-python script.py 12
+python generate_partitions.py 16
 ```
-This will generate all possible 12-note drum patterns and save them as MusicXML files.
+This will generate all possible 16-note drum patterns and save them as `16` MusicXML files. Each file contains `MAX_PATTERNS_PER_FILE=4096` patterns.
+Here are the first 36 patterns after using the _Regroup rhythms_ tools in MuseScore:
+![](./first-patterns-for-N=16.png)
 
 ## Opening the MusicXML Files
 1. Open the `.musicxml` files in notation software like MuseScore, Finale, or Sibelius.
@@ -33,6 +35,8 @@ This will generate all possible 12-note drum patterns and save them as MusicXML 
 3. Experiment with different subdivisions and note combinations to discover new rhythmic ideas!
 
 **Note:** The output can be easily written to separate files because (at least with musescore) opening files with at more than 2048 measures was challenging.
+
+![ex]
 
 ## Why Use This?
 This tool is great for:
