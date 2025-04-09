@@ -1,4 +1,5 @@
 import sys
+import os
 from lxml import etree
 from itertools import product
 import math
@@ -126,6 +127,8 @@ def generate_drum_partitions(
                     etree.SubElement(note, "rest")
 
         # Define filename and save MusicXML file
+        if not os.path.exists("output"):
+            os.makedirs("output")
         if len(patterns_split) > 1:
             filename = f"output/drum_partitions_N{n}_part{file_idx+1}.musicxml"
         else:
